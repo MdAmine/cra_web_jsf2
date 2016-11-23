@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>CRA</title>
+</h:head>
+<h:body>
+
+
+	<p:layout fullPage="true">
+
+
+
+		<p:layoutUnit position="east" size="200" resizable="false"
+			collapsible="false" effect="drop">
+			<h:form>
+
+				<p:menu>
+					<p:submenu label="Espace client">
+						<p:menuitem value="Connexion" icon="ui-icon-disk"
+							url="/pages/login.jsf" />
+
+						<p:menuitem value="S'inscrire" url="/pages/inscription.xhtml"
+							icon="ui-icon-disk" />
+					</p:submenu>
+
+
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form>
+				<p:messages />
+
+				<h3>Présentation</h3>
+				<p>Cette application est pour la gestion des CRA (Compte Rendu d’Activité), elle utilise les framework</p>
+				<ul>
+					<li>JSF 2 pour la présentation</li>
+					<li>Spring</li>
+					<li>Hibernate</li>
+					<li>Spring Security</li>
+				</ul>
+				<p></p>
+
+
+
+
+			</h:form>
+		</p:layoutUnit>
+
+	</p:layout>
+
+
+
+
+</h:body>
+</html>
+
+

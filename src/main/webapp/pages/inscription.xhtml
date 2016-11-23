@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>inscription</title>
+</h:head>
+<h:body>
+
+
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="east" size="200" resizable="false"
+			collapsible="false" effect="drop">
+			<h:form>
+
+				<p:menu>
+					<p:submenu label="Espace client">
+						<p:menuitem value="Connexion" icon="ui-icon-disk"
+							url="/pages/login.jsf" />
+
+						<p:menuitem value="S'inscrire" url="/pages/inscription.xhtml"
+							icon="ui-icon-disk" />
+					</p:submenu>
+
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form id="idf">
+
+				<p:panel id="panel" header="Nouveau utilisateur"
+					style="margin-bottom:10px;">
+					<p:messages id="messages" showDetail="true" />
+
+					<h:panelGrid columns="2" cellpadding="4">
+
+						<h:outputLabel value="Nom" style="font-weight:bold" />
+						<p:inputText id="nom" value="#{userManagerBean.utilisateur.nom}" />
+
+						<h:outputLabel value="prénom" style="font-weight:bold" />
+						<p:inputText id="prenom"
+							value="#{userManagerBean.utilisateur.prenom}" />
+
+
+
+						<h:outputLabel value="Nom d'utilisateur" style="font-weight:bold" />
+						<p:inputText value="#{userManagerBean.utilisateur.login}" />
+
+						<h:outputLabel value="Mot de passe" style="font-weight:bold" />
+						<p:password id="feedback"
+							value="#{userManagerBean.utilisateur.password}" feedback="true" />
+
+						<h:outputLabel value="Type de compte" style="font-weight:bold" />
+
+						<p:selectOneMenu
+							value="#{userManagerBean.selectedRole}">
+							<f:selectItems value="#{userManagerBean.listRoles}" />
+
+						</p:selectOneMenu>
+
+
+						<f:facet name="footer">
+							<h:panelGroup style="display:block; text-align:center">
+								<p:commandButton value="Ajouter Utilisateur" update="messages"
+									ajax="false" id="ajax" action="#{userManagerBean.insription}" />
+							</h:panelGroup>
+						</f:facet>
+					</h:panelGrid>
+				</p:panel>
+
+			</h:form>
+		</p:layoutUnit>
+
+	</p:layout>
+
+</h:body>
+</html>
+
+

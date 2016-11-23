@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<body>
+	<ui:composition>
+
+		<h:form>
+			<p:growl id="messages" />
+
+			<p:menubar>
+
+				<p:menuitem value="Home" icon="ui-icon-document"
+					url="/pages/admin/home.xhtml" />
+				<p:submenu label="Utilisateur">
+					<p:menuitem value="Liste des utilisateur" icon="ui-icon-document"
+						url="/pages/admin/listUsers.xhtml" />
+				</p:submenu>
+
+
+				<p:menuitem value="Déconnexion"
+					url="#{request.contextPath}/j_spring_security_logout"
+					icon="ui-icon-close" />
+
+				<f:facet name="options">
+					<h:outputText value="Bonjour #{adminCtrl.currentUserName}"
+						style="margin-right:10px" />
+
+				</f:facet>
+			</p:menubar>
+		</h:form>
+
+
+	</ui:composition>
+</body>
+</html>

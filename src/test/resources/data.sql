@@ -1,0 +1,1 @@
+insert into user(ID,NOM, PRENOM, LOGIN, PASSWORD, ENABLED, ACCOUNTNOTEXPIRED, ACCOUNTNOTLOCKED, LASTACCESSDATE, ROLE) values (300, 'admin', 'admin', 'ensahadmin', 'd033e22ae348aeb5660fc2140aec35850c4da997', b'1', b'1', b'1', '2013-05-30 22:35:48', 2)

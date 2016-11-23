@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        list Projet
+    </ui:define>
+
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="sideMenu">
+		<ui:include src="projectSideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="projetTable" var="projet"
+				value="#{projectManCtrl.projetList}" editable="true"
+				style="margin-bottom:20px" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}  {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<f:facet name="header">
+          			 Liste des projets 
+       			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{projectManCtrl.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{projectManCtrl.onRowCancel}" update=":form:msgs" />
+
+				<p:column headerText="Code du projet">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{projet.codeProjet}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{projet.codeProjet}" style="width:100%"
+								label="Code du projet" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Titre du projet">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{projet.nomProjet}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{projet.nomProjet}" style="width:100%"
+								label="Titre Projet" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Date de création">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{projet.dateCreation}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{projet.dateCreation}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="description">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{projet.description}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{projet.description}" style="width:100%"
+								label="description" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="" style="width:32px">
+					<p:rowEditor />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{projectManCtrl.showProject()}"
+						title="voir Détail">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:param value="#{projet.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{projectManCtrl.doDeleteProjet}"
+						title="Supprition">
+						<h:outputText styleClass="ui-icon ui-icon-trash"
+							style="margin:0 auto;" />
+						<f:param value="#{projet.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

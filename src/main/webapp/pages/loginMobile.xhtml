@@ -1,0 +1,39 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	contentType="text/html" renderKitId="PRIMEFACES_MOBILE">
+
+	<pm:page title="Contacts">
+
+		<!-- Main View -->
+		<pm:view id="main" swatch="d" title="Connexion">
+
+			<h:form id="newBookForm">
+
+
+				<pm:content>
+
+					<p:outputPanel id="content">
+						<h:outputLabel for="username" value="Username:" />
+						<p:inputText value="#{loginBean.username}" id="username"
+							required="true" />
+
+						<h:outputLabel for="password" value="Password:" />
+						<p:password value="#{loginBean.password}" id="password"
+							required="true" />
+
+						<p:commandButton value="Connexion"
+							actionListener="#{loginBean.doLogin}" action="pm:content" />
+
+					</p:outputPanel>
+				</pm:content>
+			</h:form>
+
+		</pm:view>
+	</pm:page>
+
+</f:view>

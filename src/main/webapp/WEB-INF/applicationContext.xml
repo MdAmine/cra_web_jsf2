@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<tx:advice id="defaultTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="restore*" propagation="REQUIRED" />
+			<tx:method name="loadUserByUsername*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="defaultServiceOperation"
+			expression="execution(*
+com.app.business.service.impl.*Service*.*(..))" />
+		<aop:advisor pointcut-ref="defaultServiceOperation"
+			advice-ref="defaultTxAdvice" />
+	</aop:config>
+
+
+
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost/db_cra</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value></value>
+		</property>
+	</bean>
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource">
+
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/app/business/dao/hbm/Role.hbm.xml</value>
+				<value>com/app/business/dao/hbm/Utilisateur.hbm.xml</value>
+				<value>com/app/business/dao/hbm/Tache.hbm.xml</value>
+				<value>com/app/business/dao/hbm/Projet.hbm.xml</value>
+				<value>com/app/business/dao/hbm/Cra.hbm.xml</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQL5Dialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.current_session_context_class">
+					thread
+				</prop>
+				<prop key="hibernate.transaction.factory_class">
+					org.hibernate.transaction.JDBCTransactionFactory
+				</prop>
+			</props>
+
+		</property>
+
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="projetDao" class="com.app.business.dao.impl.ProjetDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="utilisateurDao" class="com.app.business.dao.impl.UtilisateurDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="roleDao" class="com.app.business.dao.impl.RoleDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="craDao" class="com.app.business.dao.impl.CraDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="tacheDao" class="com.app.business.dao.impl.TacheDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="userManager" class="com.app.business.service.impl.UserMangerService">
+		<property name="utilisateurDao" ref="utilisateurDao"></property>
+		<property name="roleDao" ref="roleDao"></property>
+
+	</bean>
+
+	<bean id="craBusinessServiceImpl" class="com.app.business.service.impl.CraBusinessServiceImpl">
+		<property name="projetDao" ref="projetDao"></property>
+		<property name="utilisateurDao" ref="utilisateurDao"></property>
+		<property name="roleDao" ref="roleDao"></property>
+		<property name="craDao" ref="craDao"></property>
+		<property name="tacheDao" ref="tacheDao"></property>
+	</bean>
+
+</beans>

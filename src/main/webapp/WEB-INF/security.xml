@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ http://www.springframework.org/schema/security
+ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<global-method-security secured-annotations="enabled" />
+	<http auto-config="true" access-denied-page="/pages/accessDenied.xhtml">
+
+
+		<logout logout-success-url="/pages/index.xhtml" />
+
+
+		<!--===Espace Administration=== -->
+		<intercept-url pattern="/pages/admin/**"
+			requires-channel="http" access="ROLE_ADMIN" />
+
+		<!--===Espace Chef de projet=== -->
+
+		<intercept-url pattern="/pages/projectMan/**" access="ROLE_PROJECTMAN" />
+		
+		<!--===Espace collaborator=== -->
+
+		<intercept-url pattern="/pages/collaborator/**" access="ROLE_COLLABORATOR" />
+
+
+		<!--===Espace Visiteur=== -->
+
+	
+
+		<intercept-url pattern="/pages/login.*"
+			requires-channel="http" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+
+		<intercept-url  pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+		<form-login login-page="/pages/login.jsf"
+			default-target-url="/pages/common/loginSuccess.jsf"
+			authentication-failure-url="/pages/login.jsf" />
+		<session-management>
+			<concurrency-control max-sessions="1"
+				error-if-maximum-exceeded="true" />
+		</session-management>
+	</http>
+
+
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="userManager">
+			<password-encoder hash="sha">
+				<salt-source user-property="username" />
+			</password-encoder>
+
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

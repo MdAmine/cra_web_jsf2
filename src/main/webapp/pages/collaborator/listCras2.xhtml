@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        list Cra
+    </ui:define>
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:form id="form">
+
+
+
+			<p:growl id="msgs" showDetail="true" />
+			<p:dataTable id="dataTable" var="it"
+				value="#{collaboratorCtrl.craList}" editable="true"
+				style="margin-bottom:20px" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}  {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<f:facet name="header">
+          			 Liste des CRAs
+       			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{collaboratorCtrl.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{collaboratorCtrl.onRowCancel}" update=":form:msgs" />
+
+
+				<p:column headerText="Code Cra">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.title}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{it.title}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Tache">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.tache.titreTache}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{it.tache.titreTache}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Projet">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.tache.projet.codeProjet}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{it.tache.projet.codeProjet}"
+								style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Date de debut">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.dateDebut}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{it.dateDebut}" pattern="dd/MM/yyyy HH:mm"
+								label="Date de debut" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Date de fin">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.dateFin}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{it.dateFin}" pattern="dd/MM/yyyy HH:mm"
+								label="Date de fin" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+
+				<p:column headerText="" style="width:32px">
+					<p:rowEditor />
+				</p:column>
+				
+				<p:column style="width:32px">
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{collaboratorCtrl.doDeleteCra}"
+						title="Supprition" >
+						<h:outputText styleClass="ui-icon ui-icon-trash"
+							style="margin:0 auto;" />
+						<f:param value="#{it.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+
+
+		<script type="text/javascript">
+			PrimeFaces.locales['fr'] = {
+				closeText : 'fermé',
+				prevText : 'retour',
+				nextText : 'suivant',
+				currentText : 'Aujourd\'hui',
+				monthNames : [ 'JANVIER', 'FEVRIER', 'MARS', 'AVRIL', 'MAI',
+						'JUIN', 'JUILLET', 'AOUT', 'SEPTEMBRE', 'OCTOBRE',
+						'NOVEMBRE', 'DECEMBRE' ],
+				monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui',
+						'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec' ],
+				dayNames : [ 'Sam', 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven' ],
+				dayNamesShort : [ 'Sa', 'Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve' ],
+				dayNamesMin : [ 'Sa', 'Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve' ],
+				weekHeader : 'Hf',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				month : 'Mois',
+				week : 'Semaine',
+				day : 'Jour',
+				allDayText : 'Toute la journée'
+			};
+		</script>
+		<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+
+	</ui:define>
+</ui:composition>
+</html>

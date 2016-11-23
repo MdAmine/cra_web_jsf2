@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        collaborator home 
+    </ui:define>
+
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:form>
+			<p:growl id="msgs" showDetail="true" />
+
+			<h2>Tableau de bord :</h2>
+			<p:dashboard id="board" model="#{collaboratorCtrl.model}">
+				<p:ajax event="reorder" listener="#{collaboratorCtrl.handleReorder}"
+					update="msgs" />
+
+				<p:panel id="tache" header="Progression de mes Tache"
+					style="width:300px">
+
+
+					<ui:repeat var="it" value="#{collaboratorCtrl.taskList}"
+						varStatus="status">
+
+						#{it.titreTache}, #{it.projet.nomProjet}<br />
+						<p:progressBar value="#{it.dureeActuelle/it.duree*100}"
+							labelTemplate="{value}%" displayOnly="true" />
+
+					</ui:repeat>
+
+				</p:panel>
+				
+				<p:panel id="infos" header="Infos" style="width:300px">
+					<h:outputText value="dernière connexion à : " />
+					<h:outputText value="#{collaboratorCtrl.utilisateur.beforeLastAccessDate}" />
+				</p:panel>
+
+
+			</p:dashboard>
+
+			<div style="clear: both" />
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

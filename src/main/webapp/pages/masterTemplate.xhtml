@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title><ui:insert name="title">Default title</ui:insert></title>
+
+	<style type="text/css">
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.ev1{
+	background: red;
+}
+
+.ev2{
+	background: green;
+}
+
+.red {
+	color: red;
+}
+</style>
+
+
+</h:head>
+<h:body>
+
+
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north">
+
+			<div id="sideMenu">
+				<ui:insert name="navBar">Default content</ui:insert>
+			</div>
+
+
+		</p:layoutUnit>
+
+
+
+		<p:layoutUnit position="west" size="235" resizable="true"
+			collapsible="true">
+
+			<div id="sideMenu">
+				<ui:insert name="sideMenu">Default content</ui:insert>
+			</div>
+
+
+		</p:layoutUnit>
+
+
+		<p:layoutUnit position="center">
+			<div id="content">
+				<ui:insert name="content">Default content</ui:insert>
+			</div>
+		</p:layoutUnit>
+
+	</p:layout>
+
+
+
+
+</h:body>
+</html>

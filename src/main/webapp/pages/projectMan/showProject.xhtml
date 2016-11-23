@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        Projet info
+    </ui:define>
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="sideMenu">
+		<ui:include src="taskSideMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+
+		<h:form>
+			<p:outputPanel>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputText value="code projet :" />
+					<h:outputText value="#{projectManCtrl.projet.codeProjet}"
+						style="font-weight: bold" />
+
+					<h:outputText value="Titre du Projet :" />
+					<h:outputText value="#{projectManCtrl.projet.nomProjet}"
+						style="font-weight: bold" />
+
+					<h:outputText value="Date de creation :" />
+					<h:outputText value="#{projectManCtrl.projet.dateCreation}"
+						style="font-weight: bold" />
+
+					<h:outputText value="description :" />
+					<h:outputText value="#{projectManCtrl.projet.description}"
+						style="font-weight: bold" />
+
+					<h:outputText value="Progression" />
+
+					<p:progressBar
+						value="#{projectManCtrl.actualDurationOfProject/projectManCtrl.reelDurationOfProject*100}"
+						labelTemplate="{value}%" displayOnly="true" />
+				</h:panelGrid>
+			</p:outputPanel>
+			
+			<p:chart type="bar" model="#{projectManCtrl.barModel}" style="height:300px"/>
+
+			<h3>La liste des Taches</h3>
+
+			<p:dialog header="Ajouter Une tache" widgetVar="addTaskDialog"
+				showEffect="fade" hideEffect="fade">
+				<p:outputPanel id="addTask" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value">
+
+						<h:outputLabel for="titreTache" value="Titre de la tache"
+							style="font-weight:bold" />
+						<p:inputText id="titreTache"
+							value="#{projectManCtrl.tache.titreTache}" />
+
+						<h:outputLabel for="dureeHeure" value="Duree en heure"
+							style="font-weight:bold" />
+						<p:inputText id="dureeHeure" value="#{projectManCtrl.tache.duree}" />
+
+						<p:outputLabel for="user1" value="Collaborateur: " />
+						<p:selectOneMenu id="user1" value="#{projectManCtrl.affectedUser}">
+							<f:selectItem itemLabel="Choisir un collaborateur" itemValue="" />
+							<f:selectItems value="#{projectManCtrl.usersToAffect}" />
+						</p:selectOneMenu>
+
+						<p:commandButton value="Ajouter" ajax="false"
+							oncomplete="PF('addTaskDialog').hide()"
+							actionListener="#{projectManCtrl.addTask}">
+							<f:param value="#{projectManCtrl.projet.id}" name="id" />
+						</p:commandButton>
+
+
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</h:form>
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="TaskTable" var="it"
+				value="#{projectManCtrl.projetTaches}" editable="true"
+				style="margin-bottom:20px" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}  {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<f:facet name="header">
+          			 Liste des Tache
+       			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{projectManCtrl.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel"
+					listener="#{projectManCtrl.onRowCancel}" update=":form:msgs" />
+
+				<p:column headerText="Titre Tache">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.titreTache}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{it.titreTache}" style="width:100%"
+								label="Titre Tache" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Duree">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.duree}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{it.duree}" style="width:100%" label="Duree" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Duree Actuelle">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.dureeActuelle}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{it.dureeActuelle}" style="width:100%"
+								label="Duree Actuelle" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Progression">
+					<p:cellEditor>
+						<f:facet name="output">
+							<p:progressBar value="#{it.dureeActuelle/it.duree*100}"
+								labelTemplate="{value}%" displayOnly="true" />
+						</f:facet>
+						<f:facet name="input">
+							<p:progressBar value="#{it.dureeActuelle/it.duree*100}"
+								labelTemplate="{value}%" displayOnly="true" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="completé?">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText rendered="#{it.completed}" value="oui" />
+							<h:outputText rendered="#{!it.completed}" value="non" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{it.completed}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Collaborateur">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{it.utilisateur.nom}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{projectManCtrl.affectedUser}"
+								style="width:100%">
+								<f:selectItems value="#{projectManCtrl.usersToAffect}" var="u"
+									itemLabel="#{u.nom}" itemValue="#{u.nom}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="modifier" style="width:32px">
+					<p:rowEditor />
+				</p:column>
+
+				<p:column style="width:32px">
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{projectManCtrl.doDeleteTache}"
+						title="Supprition">
+						<h:outputText styleClass="ui-icon ui-icon-trash"
+							style="margin:0 auto;" />
+						<f:param value="#{it.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
+

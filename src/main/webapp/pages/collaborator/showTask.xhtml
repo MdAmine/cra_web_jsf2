@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        Projet info
+    </ui:define>
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form">
+
+			<p:outputPanel>
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputText value="titre de la tache :" />
+					<h:outputText value="#{collaboratorCtrl.tache.titreTache}"
+						style="font-weight: bold" />
+
+					<h:outputText value="Durée :" />
+					<h:outputText value="#{collaboratorCtrl.tache.duree}"
+						style="font-weight: bold" />
+
+				</h:panelGrid>
+			</p:outputPanel>
+
+			<h3>La liste des CRAs</h3>
+
+
+			<p:dataTable id="CraTable" var="it"
+				value="#{collaboratorCtrl.tacheCras}">
+
+				<p:column headerText="Date de début">
+					<h:outputText value="#{it.dateDebut}" />
+				</p:column>
+
+				<p:column headerText="Date de fin">
+					<h:outputText value="#{it.dateFin}" />
+				</p:column>
+
+				<p:column headerText="Projet">
+					<h:outputText value="#{it.tache.projet.codeProjet}" />
+				</p:column>
+
+				<p:column headerText="Titre Tache">
+					<h:outputText value="#{it.title}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
+

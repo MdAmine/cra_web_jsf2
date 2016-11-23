@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        list Task
+    </ui:define>
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<h:form>
+
+			<p:dataTable id="dataTable" var="it"
+				value="#{collaboratorCtrl.taskList}" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}  {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+
+
+				<f:facet name="header">Liste des Tache </f:facet>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Titre" />
+					</f:facet>
+					<h:outputText value="#{it.titreTache}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Durée" />
+					</f:facet>
+					<h:outputText value="#{it.duree}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Durée Actuelle" />
+					</f:facet>
+					<h:outputText value="#{it.dureeActuelle}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Progression" />
+					</f:facet>
+					<p:progressBar value="#{it.dureeActuelle/it.duree*100}"
+						labelTemplate="{value}%" displayOnly="true" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{collaboratorCtrl.showTask}">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:param value="#{it.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+			</p:dataTable>
+
+			<hr />
+
+		</h:form>
+
+		<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+
+	</ui:define>
+</ui:composition>
+</html>

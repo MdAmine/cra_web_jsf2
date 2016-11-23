@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+	<managed-bean>
+		<managed-bean-name>adminCtrl</managed-bean-name>
+		<managed-bean-class>com.app.web.managedbeans.AdminController
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>prjManServ</property-name>
+			<property-class>com.app.business.service.ProjectManagerService
+			</property-class>
+			<value>#{craBusinessServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>userManagerService</property-name>
+			<property-class>com.app.business.service.UserManager</property-class>
+			<value>#{userManager}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>adminServ</property-name>
+			<property-class>com.app.business.service.AdminService</property-class>
+			<value>#{craBusinessServiceImpl}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>projectManCtrl</managed-bean-name>
+		<managed-bean-class>com.app.web.managedbeans.ProjectManagerController
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>prjManServ</property-name>
+			<property-class>com.app.business.service.ProjectManagerService
+			</property-class>
+			<value>#{craBusinessServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>userManagerService</property-name>
+			<property-class>com.app.business.service.UserManager</property-class>
+			<value>#{userManager}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>collaboratorCtrl</managed-bean-name>
+		<managed-bean-class>com.app.web.managedbeans.CollaboratorController
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>collServ</property-name>
+			<property-class>com.app.business.service.CollaboraterService
+			</property-class>
+			<value>#{craBusinessServiceImpl}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>userManagerService</property-name>
+			<property-class>com.app.business.service.UserManager</property-class>
+			<value>#{userManager}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>userManagerBean</managed-bean-name>
+		<managed-bean-class>com.app.web.managedbeans.UserManagerBean
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>userManagerService</property-name>
+			<property-class>com.app.business.service.UserManager</property-class>
+			<value>#{userManager}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>com.app.web.managedbeans.customizedauthentication.LoginBean
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver
+		</el-resolver>
+	</application>
+	<lifecycle>
+		<phase-listener>com.app.web.managedbeans.customizedauthentication.LoginErrorPhaseListener
+		</phase-listener>
+	</lifecycle>
+
+</faces-config>

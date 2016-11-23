@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        list Users
+    </ui:define>
+
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="userTable" var="u" value="#{adminCtrl.usersList}"
+				editable="true" style="margin-bottom:20px" paginator="true"
+				rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks}  {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
+				<f:facet name="header">
+          			 Liste des utilisateur 
+       			</f:facet>
+
+				<p:ajax event="rowEdit" listener="#{adminCtrl.onRowEdit}"
+					update=":form:msgs" />
+				<p:ajax event="rowEditCancel" listener="#{adminCtrl.onRowCancel}"
+					update=":form:msgs" />
+
+				<p:column headerText="Id">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.id}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{u.id}" style="width:100%" label="id" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Login">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.login}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{u.login}" style="width:100%" label="login" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Matricule">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.matricule}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{u.matricule}" style="width:100%"
+								label="matricule" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Nom">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.nom}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{u.nom}" style="width:100%"
+								label="Titre Projet" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Prenom">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.prenom}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{u.prenom}" style="width:100%"
+								label="Titre Projet" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Dernier accès">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.lastAccessDate}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{u.lastAccessDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Activé?">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.enabled}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{u.enabled}" style="width:100%"
+								label="Activé" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Non expiré?">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.accountNotExpired}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{u.accountNotExpired}"
+								style="width:100%" label="Non expiré?" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Non Verrouillé?">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{u.accountNotLocked}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{u.accountNotLocked}"
+								style="width:100%" label="Non Verrouillé?" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="" style="width:32px">
+					<p:rowEditor />
+				</p:column>
+
+				<p:column style="width:32px">
+					<f:facet name="header">
+						<h:outputText value="" />
+					</f:facet>
+					<h:commandLink action="#{adminCtrl.doDeleteUser}"
+						title="Supprition">
+						<h:outputText styleClass="ui-icon ui-icon-trash"
+							style="margin:0 auto;" />
+						<f:param value="#{u.id}" name="id" />
+					</h:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

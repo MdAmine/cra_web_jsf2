@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Login</title>
+</h:head>
+<h:body>
+
+
+	<p:layout fullPage="true">
+
+
+		<p:layoutUnit position="east" size="200" resizable="false"
+			collapsible="false" effect="drop">
+			<h:form>
+
+				<p:menu>
+					<p:submenu label="Espace client">
+						<p:menuitem value="Connexion" icon="ui-icon-disk"
+							onclick="dlg.show()" />
+						<p:menuitem value="S'inscrire" url="/pages/inscription.xhtml"
+							icon="ui-icon-disk" />
+					</p:submenu>
+
+
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center" header="Connexion">
+
+			<p>Entrer votre login et password pour se connecter</p>
+			<h:form id="loginform">
+
+				<h:panelGrid columns="2" cellpadding="5">
+				                
+					<p:messages id="messages" />
+
+					<h:outputLabel for="username" value="Username:" />
+					<p:inputText value="#{loginBean.username}" id="username"
+						required="true" label="username" />
+
+					<h:outputLabel for="password" value="Password:" />
+					<p:password value="#{loginBean.password}" id="password"
+						required="true" label="password" />
+
+					<f:facet name="footer">
+						<p:commandButton id="loginButton" value="Login" ajax="false"
+							action="#{loginBean.doLogin}" />
+
+
+					</f:facet>
+
+
+				</h:panelGrid>
+			</h:form>
+		</p:layoutUnit>
+
+	</p:layout>
+
+
+</h:body>
+</html>
+
+

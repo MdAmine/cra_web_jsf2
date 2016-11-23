@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        nouveau Projet
+    </ui:define>
+
+
+<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="projectSideMenu">
+		<ui:include src="projectSideMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+			<p:panel id="panel" header="Nouveau projet"
+				style="margin-bottom:10px;">
+
+				<h:panelGrid columns="2" cellpadding="4">
+
+					<h:outputLabel value="Code Projet" style="font-weight:bold" />
+					<p:inputText id="codeProjet"
+						value="#{projectManCtrl.projet.codeProjet}" />
+
+					<h:outputLabel value="Nom du projet" style="font-weight:bold" />
+					<p:inputText id="nomProjet"
+						value="#{projectManCtrl.projet.nomProjet}" />
+
+
+					<h:outputLabel value="Description" style="font-weight:bold" />
+					<p:inputText id="description"
+						value="#{projectManCtrl.projet.description}" />
+
+					<f:facet name="footer">
+						<h:panelGroup style="display:block; text-align:center">
+							<p:commandButton value="Envoyer"
+								action="#{projectManCtrl.doCreateProjet}" ajax="false">
+								<f:param value="#{projectManCtrl.projet.id}" name="id" />
+								<f:param value="#{projectManCtrl.edit}" name="edit" />
+							</p:commandButton>
+						</h:panelGroup>
+					</f:facet>
+				</h:panelGrid>
+			</p:panel>
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>
+

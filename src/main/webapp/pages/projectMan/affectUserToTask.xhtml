@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/baseTemplate.xhtml">
+
+	<ui:define name="title">
+        Affect User To Task
+    </ui:define>
+
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form>
+			<p:panel id="panel" header="Affecter un utilisateur"
+				style="margin-bottom:10px;">
+
+
+				<p:outputLabel for="user" value="User: " />
+				<p:selectOneMenu id="user" value="#{projectManCtrl.affectedUser}">
+					<f:selectItem itemLabel="Select User" itemValue="" />
+					<f:selectItems value="#{projectManCtrl.usersToAffect}" />
+				</p:selectOneMenu>
+
+
+
+				<p:commandButton value="Affecter"
+					actionListener="#{projectManCtrl.affectUserToTask}">
+
+					<f:param value="#{projectManCtrl.tache.id}" name="TaskId" />
+				</p:commandButton>
+
+			</p:panel>
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>
+

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        admin home 
+    </ui:define>
+
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:form>
+			<p:growl id="msgs" showDetail="true" />
+
+			<h2>Tableau de bord :</h2>
+			<p:dashboard id="board" model="#{adminCtrl.model}">
+				<p:ajax event="reorder" listener="#{adminCtrl.handleReorder}"
+					update="msgs" />
+
+				<p:panel id="projet" header="Projet" style="width:250px">
+					<h:outputText
+						value="Projet créé Aujourd'hui: #{adminCtrl.countProjectCreatedToday}" />
+				</p:panel>
+
+				<p:panel id="collaborateur" header="Collaborateur"
+					style="width:250px">
+					<h:outputText
+						value="Connecté Aujourd'hui: #{adminCtrl.countCollConnectedToday}" />
+					<br />
+					<h:outputText
+						value="Nombre total des collaborateur: #{adminCtrl.countOfColl}" />
+				</p:panel>
+
+				<p:panel id="chef" header="Chef de Projet" style="width:250px">
+					<h:outputText
+						value="Connecté Aujourd'hui: #{adminCtrl.countChefConnectedToday}" />
+					<br />
+					<h:outputText
+						value="Nombre total de chef de projet: #{adminCtrl.countOfChef}" />
+				</p:panel>
+
+				<p:panel id="infos" header="Infos" style="width:300px">
+					<h:outputText value="dernière connexion à : " />
+					<h:outputText value="#{collaboratorCtrl.utilisateur.beforeLastAccessDate}" />
+				</p:panel>
+
+
+			</p:dashboard>
+
+			<div style="clear: both" />
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/masterTemplate.xhtml">
+
+	<ui:define name="title">
+        list Cra
+    </ui:define>
+
+	<ui:define name="navBar">
+		<ui:include src="navBar.xhtml" />
+	</ui:define>
+
+	<ui:define name="sideMenu">
+		<ui:include src="sideMenu.xhtml" />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:form id="form">
+
+
+			<p:growl id="messages" showDetail="true" />
+
+			<h:panelGrid columnClasses="value">
+				<p:schedule id="schedule" value="#{collaboratorCtrl.eventModel}"
+					widgetVar="myschedule" timeZone="GMT" locale="fr">
+
+					<p:ajax event="dateSelect"
+						listener="#{collaboratorCtrl.onDateSelect}" update="eventDetails"
+						oncomplete="PF('eventDialog').show();" />
+					<p:ajax event="eventSelect"
+						listener="#{collaboratorCtrl.onEventSelect}" update="eventDetails"
+						oncomplete="PF('eventDialog').show();" />
+					<p:ajax event="eventMove"
+						listener="#{collaboratorCtrl.onEventMove}" update="messages" />
+					<p:ajax event="eventResize"
+						listener="#{collaboratorCtrl.onEventResize}" update="messages" />
+
+				</p:schedule>
+
+
+			</h:panelGrid>
+
+			<p:dialog widgetVar="eventDialog" header="info du compte rendu d'activité"
+				showEffect="clip" hideEffect="clip">
+				<h:panelGrid id="eventDetails" columns="2">
+
+					<p:tabView>
+						<p:tab title="Tache">
+
+							<h:form>
+								<h:panelGrid columns="2">
+
+									<p:outputLabel for="task" value="Tache: "
+										rendered="#{!collaboratorCtrl.checkAbsence}" />
+									<p:selectOneMenu id="task" value="#{collaboratorCtrl.task}"
+										rendered="#{!collaboratorCtrl.checkAbsence}">
+										<f:selectItem itemLabel="Select Task" itemValue="" />
+										<f:selectItems value="#{collaboratorCtrl.taskList}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="raf" value="reste à faire:" />
+									<p:inputText id="raf" value="#{collaboratorCtrl.event.RAF}" />
+
+									<p:outputLabel for="from" value="From:" />
+									<p:calendar id="from"
+										value="#{collaboratorCtrl.event.startDate}" timeZone="GMT"
+										pattern="dd/MM/yyyy HH:mm" />
+
+									<p:outputLabel for="to" value="To:" />
+									<p:calendar id="to" value="#{collaboratorCtrl.event.endDate}"
+										timeZone="GMT" pattern="dd/MM/yyyy HH:mm" />
+
+									<p:outputLabel for="completed" value="complété:" />
+									<h:selectBooleanCheckbox id="completed"
+										value="#{collaboratorCtrl.event.completed}" />
+
+									<p:commandButton type="reset" value="Reset" />
+									<p:commandButton id="addButton" value="Save"
+										actionListener="#{collaboratorCtrl.addEvent}"
+										oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+										<f:param value="tache" name="form" />
+									</p:commandButton>
+
+								</h:panelGrid>
+							</h:form>
+						</p:tab>
+						<p:tab title="Absenté">
+							<h:form>
+								<h:panelGrid columns="2">
+
+									<p:outputLabel for="cA" value="cause d'absence:" />
+
+									<p:selectOneMenu id="cA"
+										value="#{collaboratorCtrl.causeAbsence}">
+										<f:selectItem itemLabel="Select " itemValue="" />
+										<f:selectItems value="#{collaboratorCtrl.causeAbsenceList}" />
+									</p:selectOneMenu>
+
+									<p:outputLabel for="from2" value="From:" />
+									<p:calendar id="from2"
+										value="#{collaboratorCtrl.event.startDate}" timeZone="GMT"
+										pattern="dd/MM/yyyy HH:mm" />
+
+									<p:outputLabel for="to2" value="To:" />
+									<p:calendar id="to2" value="#{collaboratorCtrl.event.endDate}"
+										timeZone="GMT" pattern="dd/MM/yyyy HH:mm" />
+
+
+									<p:commandButton type="reset" value="Reset" />
+									<p:commandButton id="addButton2" value="Save"
+										actionListener="#{collaboratorCtrl.addEvent}"
+										oncomplete="PF('myschedule').update();PF('eventDialog').hide();">
+										<f:param value="abs" name="form" />
+									</p:commandButton>
+
+
+								</h:panelGrid>
+							</h:form>
+						</p:tab>
+					</p:tabView>
+
+				</h:panelGrid>
+
+			</p:dialog>
+
+
+
+
+
+
+		</h:form>
+
+
+
+		<script type="text/javascript">
+			PrimeFaces.locales['fr'] = {
+				closeText : 'fermé',
+				prevText : 'retour',
+				nextText : 'suivant',
+				currentText : 'Aujourd\'hui',
+				monthNames : [ 'JANVIER', 'FEVRIER', 'MARS', 'AVRIL', 'MAI',
+						'JUIN', 'JUILLET', 'AOUT', 'SEPTEMBRE', 'OCTOBRE',
+						'NOVEMBRE', 'DECEMBRE' ],
+				monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui',
+						'Jui', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec' ],
+				dayNames : [ 'Sam', 'Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven' ],
+				dayNamesShort : [ 'Sa', 'Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve' ],
+				dayNamesMin : [ 'Sa', 'Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve' ],
+				weekHeader : 'Hf',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				month : 'Mois',
+				week : 'Semaine',
+				day : 'Jour',
+				allDayText : 'Toute la journée'
+			};
+		</script>
+		<style type="text/css">
+.value {
+	width: 1000px;
+}
+</style>
+
+	</ui:define>
+</ui:composition>
+</html>
